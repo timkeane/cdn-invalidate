@@ -1,0 +1,52 @@
+{
+  "name": "cdn-invalidate",
+  "version": "1.0.0",
+  "description": "Invalidate CDN objects",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timkeane/cdn-invalidate.git"
+  },
+  "keywords": [
+    "CDN"
+  ],
+  "author": "Tim Keane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timkeane/cdn-invalidate/issues"
+  },
+  "homepage": "https://github.com/timkeane/cdn-invalidate#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "es6-promise": "^4.2.4",
+    "express": "^4.16.3",
+    "nodemon": "^1.18.3",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "jest": "^23.5.0",
+    "jquery": "^3.3.1"
+  },
+  "jest": {
+    "verbose": true,
+    "automock": false,
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/coverage/",
+      "__tests__"
+    ]
+  }
+}
