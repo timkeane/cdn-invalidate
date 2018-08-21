@@ -1,24 +1,32 @@
 require('dotenv').config()
 require('es6-promise')
 
-const cdnRequest = require('request')
-cdnRequest.auth({
-  user: process.env.USER, 
-  password: process.env.PASSWORD
-})
+const Client = require('node-rest-client').Client
 
 module.exports = (request, response) => {
   return new Promise((resolve, reject) => {
-    cdnRequest.post(process.env.CDN_URI, {
-      objects: request.body,
-      type: 'invalidate'
-    }, (cdnError, cdnResponse, cdnBody) => {
-      const cdnData = {error: cdnError, response: cdnResponse, body: cdnBody}
-      if (cdnError) {
-        reject(cdnData)
+    const client = new Client({
+      user: process.env.CDN_USER,
+      password: process.env.CDN_PASSWORD
+    })
+    client.post(process.env.CDN_URI, {
+      headers: {'Content-Type': 'application/json'},
+      data: {
+        objects: request.body,
+        action: 'invalidate'
       }
-      response.json(cdnData)
-      resolve(cdnData)
+    }, (cdnData, cdnResponse) => {
+      const status = cdnResponse.statusCode
+      if (status === 201) {
+        response.json(cdnData)
+        resolve(cdnData)
+      } else if (status === 400) {
+        response.status(status).json(cdnData)
+        reject(cdnData)
+      } else {
+        response.status(status).json({message: cdnResponse.statusMessage})
+        reject({message: cdnResponse.statusMessage})
+      }
     })  
   })
 }
